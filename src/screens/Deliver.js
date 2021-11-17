@@ -4,9 +4,11 @@ import Navigator from '../components/Navigator';
 import { CssBaseline } from '@mui/material';
 import { Box } from '@mui/system';
 
+import { deliver } from '../api/ContractApi';
+
 export default function Producer() {
-    const [name, setName] = React.useState('');
-    const [description, setDescription] = React.useState('');
+    const [privateKey, setPrivateKey] = React.useState('');
+    const [id, setId] = React.useState(0);
     const [loc, setLoc] = React.useState('');
     const [event, setEvent] = React.useState('');
     const [progress, setProgress] = React.useState(0);
@@ -28,16 +30,17 @@ export default function Producer() {
                     <CircularProgress variant="determinate" value={progress} />
                 </Box>
             </Box>
-            <TextField value={name} margin="normal" label="name" onChange={
-                (e) => setName(e.target.value)
+            <Box>
+                <TextField value={privateKey} margin="normal" label="PrivateKey" onChange={
+                    (e) => setPrivateKey(e.target.value)
+                } type='password' />
+            </Box>
+            <TextField value={id} margin="normal" label="id" onChange={
+                (e) => setId(e.target.value)
             }/>
             <TextField value={loc} margin="normal" label="loc" onChange={
                 (e) => setLoc(e.target.value)
-            }/>
-            <TextField value={description} margin="normal" label="describe" onChange={
-                (e) => setDescription(e.target.value)
             }
-            multiline={true}
             />
             <TextField value={event} margin="normal" label="event" onChange={
                 (e) => setEvent(e.target.value)} 
@@ -46,7 +49,13 @@ export default function Producer() {
 
             <Button variant="contained" color="primary" onClick={()=>{
                 setProgress(50);
-
+                deliver(privateKey, parseInt(id), loc, event).then((v)=>{
+                    if(v) setProgress(100);
+                    else {
+                        setProgress(0);
+                        alert("Failed to deliver");
+                    }
+                })
             }}>
                 Summit 
             </Button>

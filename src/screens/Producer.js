@@ -58,13 +58,11 @@ export default function Producer() {
             <Button variant="contained" color="primary" onClick={()=>{
                 setProgress(50);
                 produce(privateKey, name, description, loc, event).then((v)=>{
-                    if(v) setProgress(100);
-                    else {
-                        setProgress(0);
-                        alert("Failed to deliver");
-                    }
+                    setProgress(100);
+                    alert("Commodity id: " + v);
                 }).catch(e=>{
                     alert("Error may sufficient privileges");
+                    console.log(e);
                     setProgress(0);
                 })
             }}>
@@ -74,7 +72,7 @@ export default function Producer() {
 
 
             <Box justifySelf='flex-end' marginTop='auto' boxShadow={5}>
-                <Navigator id={2} />
+                <Navigator id={1} />
             </Box>
             </Box>
 

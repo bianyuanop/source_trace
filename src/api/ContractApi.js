@@ -29,7 +29,7 @@ export const produce = async (privateKey, name, describe, loc, event) => {
 
   let res = await contract.produce(name, describe, loc, event).sendTransaction({from: account}).executed();
   let count = -1;
-  if(res.outcomeStatus === 0) count = await contract.counter();
+  if(res.outcomeStatus === 0) count = parseInt(await contract.counter()) - 1;
 
   return count;
 }

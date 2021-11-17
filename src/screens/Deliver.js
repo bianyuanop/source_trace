@@ -50,7 +50,10 @@ export default function Producer() {
             <Button variant="contained" color="primary" onClick={()=>{
                 setProgress(50);
                 deliver(privateKey, parseInt(id), loc, event).then((v)=>{
-                    if(v) setProgress(100);
+                    if(v) {
+                        setProgress(100);
+                        alert("Deliver confirmed");
+                    }
                     else {
                         setProgress(0);
                         alert("Failed to deliver");

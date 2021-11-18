@@ -4,9 +4,12 @@ import { BottomNavigationAction } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
+import { useNavigate } from "react-router-dom";
+
 
 const Navigator  = (data) => {
   const [value, setValue] = React.useState(data.id);
+  let navigate = useNavigate();
 
     return (
         <BottomNavigation
@@ -17,13 +20,13 @@ const Navigator  = (data) => {
             console.log(newValue);
             switch (newValue) {
                 case 0:
-                    window.location.href = '/';
+                    navigate('/')
                     break;
                 case 1:
-                    window.location.href = '/producer';
+                    navigate('/producer')
                     break;
                 case 2:
-                    window.location.href = '/deliver';
+                    navigate('/deliver')
                     break;
                 default:
                 break;

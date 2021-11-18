@@ -17,7 +17,7 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route exact path="/" element={<App />} />
         <Route path="/producer" element={<Producer />} />
         <Route path="/deliver" element={<Deliver />} />
       </Routes>

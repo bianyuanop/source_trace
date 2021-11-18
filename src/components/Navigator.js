@@ -30,9 +30,9 @@ const Navigator  = (data) => {
             }
             }}
         >
-            <BottomNavigationAction label="Find" icon={<SearchIcon />} />
-            <BottomNavigationAction label="Produce" icon={<AddIcon />} />
-            <BottomNavigationAction label="Deliver" icon={<DeliveryDiningIcon />} />
+            <BottomNavigationAction label="查询" icon={<SearchIcon />} />
+            <BottomNavigationAction label="生产标记" icon={<AddIcon />} />
+            <BottomNavigationAction label="配送" icon={<DeliveryDiningIcon />} />
         </BottomNavigation>
     )
 }

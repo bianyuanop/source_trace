@@ -54,19 +54,19 @@ export default function Commodity(data) {
             <Box style={{
                 display: 'flex',
             }}>
-                <div>Name: </div>
+                <div>产品名: </div>
                 <div>{commodity.name}</div>
             </Box>
             <Box style={{
                 display: 'flex',
             }}>
-                <div>time: </div>
-                <div>{commodity.timestamp}</div>
+                <div>生产日期: </div>
+                <div>{getTime(commodity.timestamp)}</div>
             </Box>
             <Box style={{
                 display: 'flex',
             }}>
-                <div>describe: </div>
+                <div>产品描述: </div>
                 <div>{commodity.decribe}</div>
             </Box>
 
@@ -74,9 +74,9 @@ export default function Commodity(data) {
                 <Table sx={{ minWidth: 300 }} aria-label="simple table">
                 <TableHead>
                 <TableRow>
-                    <TableCell align="left" width={130}>Time</TableCell>
-                    <TableCell align="left">Loc</TableCell>
-                    <TableCell align="left">Event</TableCell>
+                    <TableCell align="left" width={130}>时间</TableCell>
+                    <TableCell align="left">地点</TableCell>
+                    <TableCell align="left">事件</TableCell>
                 </TableRow>
                 </TableHead>
                 <TableBody>

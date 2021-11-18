@@ -33,7 +33,7 @@ export default function App() {
             alignItems: 'center',
           }}
           >
-            QNQ Source Trace System
+            卡匿奇溯源系统
           </Box> 
 
           <Box style={{
@@ -43,7 +43,7 @@ export default function App() {
           marginTop='5%'
           marginBottom='5%'
           >
-            <TextField id="outlined-basic" label="CommodyId" value={commodyId} onChange={
+            <TextField id="outlined-basic" label="商品id" value={commodyId} onChange={
               (v) => {
                 setCommodyId(v.target.value);
               }
@@ -56,7 +56,7 @@ export default function App() {
               }).catch(e=>{
                 console.log(e);
               });
-            }}>Query</Button>
+            }}>查询</Button>
           </Box>
 
           <Box marginTop="5%" paddingLeft="5%" paddingRight="5%" style={{

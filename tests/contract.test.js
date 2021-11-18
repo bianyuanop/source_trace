@@ -16,7 +16,7 @@ const cfx = new Conflux({
   networkId: 1,
 });
 
-const contract = cfx.Contract({abi, address:'cfxtest:acc8ctvggnkksv4g2t3zcae2zs6m32nfv6dn9xt77n'});
+const contract = cfx.Contract({abi, address:'cfxtest:acbtsya8ykrtu01a1ub5x0rmnj9bu0pfga6t56pert'});
 
 const testQueryCommodity = async ()=> {
   const comm = await contract.getCommodity(0);
@@ -40,18 +40,16 @@ const testSellCommodity = async ()=> {
 
 
 }
-
 const testProduceCommodity = async () => {
   const account = cfx.wallet.addPrivateKey(privateKeys.producer);
 
   const res = await contract.produce("Test1", "Describe1", "loctaion1", "Event1").sendTransaction({from: account}).executed();
-  let count = -1;
-  if(res.outcomeStatus === 0) {
-    count = await contract.counter();
-  } 
-  console.log(parseInt(count)-1);
 
-  return parseInt(count)-1;
+  console.log(res);
+
+  const output = await contract.abi.decodeLog(res.logs[0]);
+  console.log(output);
+
 }
 
 testProduceCommodity();

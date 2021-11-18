@@ -3,7 +3,17 @@ import { abi } from '../contracts/Main.json';
 
 const cfxNetwork= 'https://test.confluxrpc.com';
 const defaultPrivateKey = '0xba32959bc0a2479108c329099b4bdcd4def8713c52d61cfd95a4598507d27870';
-const contractAddress = 'cfxtest:acc8ctvggnkksv4g2t3zcae2zs6m32nfv6dn9xt77n';
+const contractAddress = 'cfxtest:acbtsya8ykrtu01a1ub5x0rmnj9bu0pfga6t56pert';
+
+function logsHanlder(contract, logs) {
+  let logsDecoded = {};
+  for(let i=0; i<logs.length; i++) {
+    let logDecoded = contract.abi.decodeLog(logs[i]);
+    logsDecoded[logDecoded.name] = logDecoded;
+  }
+
+  return logsDecoded;
+}
 
 export const queryCommodity = async (id) => {
   const cfx = new Conflux({
@@ -28,10 +38,22 @@ export const produce = async (privateKey, name, describe, loc, event) => {
   const account = cfx.wallet.addPrivateKey(privateKey);
 
   let res = await contract.produce(name, describe, loc, event).sendTransaction({from: account}).executed();
-  let count = -1;
-  if(res.outcomeStatus === 0) count = parseInt(await contract.counter()) - 1;
 
-  return count;
+  if(res.outcomeStatus === 0) {
+    let logs = logsHanlder(contract, res.logs);
+    console.log(logs);
+    if('ProduceCommodity' in logs) {
+      return {
+        success: true,
+        producer: logs.ProduceCommodity.object._producer,
+        id: logs.ProduceCommodity.object._commodity_id
+      }
+    } else {
+      return {
+        success: false,
+      }
+    }
+  }
 }
 
 export const sell = async (privateKey, id, loc, event) => {
@@ -58,6 +80,12 @@ export const deliver = async (privateKey, id, loc, event) => {
   const account = cfx.wallet.addPrivateKey(privateKey);
 
   let res = await contract.deliver(id, loc, event).sendTransaction({from: account}).executed();
-  if(res.outcomeStatus === 0) return true;
-  else return false;
+  
+  if(res.outcomeStatus === 0) return {
+    success: true,
+    transaction: res.transactionHash
+  };
+  else return {
+    success: false,
+  };
 }

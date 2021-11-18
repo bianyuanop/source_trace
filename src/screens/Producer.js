@@ -3,9 +3,11 @@ import * as React from 'react';
 import Navigator from '../components/Navigator';
 import { CssBaseline } from '@mui/material';
 import { Box } from '@mui/system';
-import { Lock, LockOpen } from '@mui/icons-material';
+import { Snackbar } from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 import { produce } from '../api/ContractApi';
+import { copyTextToClipboard } from '../util/util';
 
 
 export default function Producer() {
@@ -15,8 +17,34 @@ export default function Producer() {
     const [loc, setLoc] = React.useState('');
     const [event, setEvent] = React.useState('');
     const [progress, setProgress] = React.useState(0);
-    const [lock, setLock] = React.useState(false);
     
+    const [error, setError] = React.useState(false);
+    const [success, setSuccess] = React.useState(false);
+    const [errorMsg, setErrorMsg] = React.useState('');
+    const [transaction, setTransaction] = React.useState('');
+    const [copy, setCopy] = React.useState(false);
+
+    const failAction = (
+        <React.Fragment>
+            <IconButton onClick={()=>{
+                copyTextToClipboard(errorMsg);
+                setCopy(true);
+            }}>
+                <ContentCopyIcon color='white' />
+            </IconButton>
+        </React.Fragment>
+    );
+
+    const successAction = (
+        <React.Fragment>
+            <IconButton onClick={()=>{
+                copyTextToClipboard(transaction);
+                setCopy(true);
+            }}>
+                <ContentCopyIcon color='white' />
+            </IconButton>
+        </React.Fragment>
+    );
     return (
     <React.Fragment>
         <CssBaseline />
@@ -24,12 +52,15 @@ export default function Producer() {
             <Box height={window.innerHeight} style={{
                 display: 'flex',
                 flexDirection: 'column',
-            }} >
+            }} 
+            marginLeft={2}
+            marginRight={2}
+            >
             <Box marginBottom="5%" style={{
                 display: 'flex',
                 alignItems: 'center',
             }}>
-                Deliver
+                Producer
                 <Box marginLeft="2%">
                     <CircularProgress variant="determinate" value={progress} />
                 </Box>
@@ -59,11 +90,21 @@ export default function Producer() {
                 setProgress(50);
                 produce(privateKey, name, description, loc, event).then((v)=>{
                     setProgress(100);
-                    alert("Commodity id: " + v);
+                    if(v.success) {
+                        setSuccess(true);
+                        setTransaction(v.id);
+                        console.log(v);
+                    } else {
+                        setError(true);
+                        setErrorMsg("failed may gas limit, call admin if u tries a lot");
+                        console.log(v);
+                    }
                 }).catch(e=>{
-                    alert("Error may sufficient privileges");
+                    setError(true);
                     console.log(e);
                     setProgress(0);
+
+                    setErrorMsg(String(e));
                 })
             }}>
                 Summit 
@@ -75,6 +116,12 @@ export default function Producer() {
                 <Navigator id={1} />
             </Box>
             </Box>
+
+            <Snackbar open={error} autoHideDuration={5000} message={ "Error: "+ errorMsg.substr(0, 5) + '...'} action={failAction} />
+            <Snackbar open={success} autoHideDuration={5000} message={"Commodity Id: "+ transaction.substr(0, 5) + '...'} action={successAction} />
+            <Snackbar open={copy} autoHideDuration={5000} message={"Copied"} onClick={()=>{
+                setCopy(false);
+            }} />
 
         </Container>
     </React.Fragment>

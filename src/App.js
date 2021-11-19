@@ -3,9 +3,10 @@ import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { TextField } from '@mui/material';
+import { TextField} from '@mui/material';
 import { Button } from '@mui/material';
 import Commodity from './components/Commodity';
+import { Avatar, Link } from '@mui/material';
 
 import Navigator from './components/Navigator';
 
@@ -24,6 +25,7 @@ export default function App() {
          style={{
           display: 'flex',
           flexDirection: 'column',
+          backgroundColor: 'rgb(244 244 244)'
         }}
         >
           <Box height='10%'
@@ -31,9 +33,14 @@ export default function App() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            backgroundColor: 'white'
           }}
+          boxShadow={1}
           >
-            卡匿奇溯源系统
+            <Avatar src='/company.svg' sx={{ width: 50, height: 50}} />
+            <Link href="https://confluxscan.io/address/cfx:acf04ah5ja3zc6nkcfv5pu2x693ty4shmpc7cwemjr?tab=contract-viewer">
+              卡匿奇溯源系统
+            </Link>
           </Box> 
 
           <Box style={{

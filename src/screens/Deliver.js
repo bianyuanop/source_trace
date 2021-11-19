@@ -1,4 +1,4 @@
-import { Container, TextField, Button, CircularProgress } from '@mui/material';
+import { Container, TextField, Button, CircularProgress, Avatar } from '@mui/material';
 import * as React from 'react';
 import Navigator from '../components/Navigator';
 import { CssBaseline } from '@mui/material';
@@ -55,15 +55,22 @@ export default function Producer() {
             <Box height={window.innerHeight} style={{
                 display: 'flex',
                 flexDirection: 'column',
+                backgroundColor: 'rgb(244 244 244)'
             }} 
-            marginLeft={2}
-            marginRight={2}
             >
             <Box marginBottom="5%" style={{
                 display: 'flex',
                 alignItems: 'center',
-            }}>
-                配送
+                backgroundColor: 'white'
+            }}
+            boxShadow={1}
+            paddingLeft={2}
+            paddingRight={2}
+            >
+                <Avatar alt="DE" src="/delivery.png" />
+                <Box marginLeft={2}>
+                    配送
+                </Box>
                 <Box marginLeft="2%">
                     <CircularProgress variant="determinate" value={progress} />
                 </Box>
@@ -102,7 +109,7 @@ export default function Producer() {
                     setErrorMsg('出错: ' + String(e));
                 })
             }}>
-                Summit 
+                提交
             </Button>
 
             <Box justifySelf='flex-end' marginTop='auto' boxShadow={5}>
